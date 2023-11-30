@@ -35,7 +35,6 @@ export default function Page() {
  
     if(data.data== "valid"){
       console.log("login is valid!")
-      window.location="/dashboard"
 
       
     } else {
@@ -62,12 +61,32 @@ export default function Page() {
 
     let email = data.get('email')
 		let pass = data.get('pass')
+    let Address = data.get('Address')
+    let Email = data.get('Email')
+    let Pass = data.get('Pass')
+    let dob = data.get('dob')
 
     console.log("Sent email:" + email)
+    console.log("Sent Email:" + Email)
     console.log("Sent pass:" + pass)
+    console.log("Sent Pass:" + Pass)
+    console.log("Sent address:" + Address)
+    console.log("Sent dob:" + dob)
 
 
-    runDBCallAsync(`http://localhost:3000/api/login?email=${email}&pass=${pass}`)
+
+    runDBCallAsync(`http://localhost:3000/api/register?email=${email}&Email=${Email}&pass=${pass}&Pass=${Pass}&Address=${Address}&dob=${dob}`)
+
+    async function runDBCallAsync(url) {
+      const res = await fetch(url);
+      const data = await res.json();
+      if(data.data== "true"){
+      console.log("registered")
+      window.location="/dashboard"
+      } else {
+      console.log("not registered ")
+      }
+      }
 
 
 
@@ -129,6 +148,18 @@ export default function Page() {
             type="pass"
             id="pass"
             autoComplete="current-password"
+          />
+
+
+<TextField
+            margin="normal"
+            required
+            fullWidth
+            id="dob"
+            label="dob"
+            name="dob"
+            autoComplete="dob"
+            autoFocus
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
