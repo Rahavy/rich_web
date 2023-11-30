@@ -75,7 +75,8 @@ export default function Page() {
 
 
 
-    runDBCallAsync(`http://localhost:3000/api/register?email=${email}&Email=${Email}&pass=${pass}&Pass=${Pass}&Address=${Address}&dob=${dob}`)
+    //runDBCallAsync(`http://localhost:3000/api/register?email=${email}&Email=${Email}&pass=${pass}&Pass=${Pass}&Address=${Address}&dob=${dob}`)
+    runDBCallAsync(`api/login?email=${email}&pass=${pass}`)
 
     async function runDBCallAsync(url) {
       const res = await fetch(url);

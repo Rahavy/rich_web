@@ -64,7 +64,9 @@ console.log(dob);
   // database call goes here
 // =================================================
 const { MongoClient } = require('mongodb');
-const url = 'mongodb://localhost:27017/';
+//const url = 'mongodb://localhost:27017/';
+const url =
+'mongodb+srv://b00142497:gcYuRl277Qy2vCTJ@cluster0.bhbgotd.mongodb.net/?retryWrites=true&w=majority';
 const client = new MongoClient(url);
 const dbName = 'app'; // database name
 

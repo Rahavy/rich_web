@@ -18,7 +18,8 @@ import { useState, useEffect } from 'react'
 export default function Page() {
     const [data, setData] = useState(null)
     useEffect(() => {
-    fetch('http://localhost:3000/api/getCart')
+    fetch('api/getCart')
+    
     .then((res) => res.json())
     .then((data) => {
     setData(data)
