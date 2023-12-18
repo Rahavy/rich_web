@@ -63,6 +63,10 @@ console.log(dob);
 
 
 
+const bcrypt = require('bcrypt);
+const saltRounds = 10;
+
+const hash = bcrypt.hashSync(pass, saltRounds);
 
 
 
