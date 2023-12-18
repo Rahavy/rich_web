@@ -16,10 +16,26 @@ import {ThemeProvider } from '@mui/material/styles';
 
 import { createTheme } from '@mui/material/styles';
 import { green, purple } from '@mui/material/colors';
+//import { Dialog, DialogActions, DialogTitle } from '@mui/material';
+
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
 
 export default function Page() {
 
+
+  //email valid
+var validator = require("email-validator");
+let email = "b00142497@mytudublin.ie";
+let isEmailValid = validator.validate(email);
+
+if (isEmailValid == true){
+    console.log("Email is valid");
+}
 
 
   /*
@@ -49,12 +65,58 @@ export default function Page() {
   When the button is clicked, this is the event that is fired.
   The first thing we need to do is prevent the default refresh of the page.
   */
+
+// vaild form
+const validateForm =(event) => {
+  let errorMessage = '';
+  const data = new FormData(event.currentTarget);
+
+  //validate password
+  let pass = data.get('pass')
+  if(pass.length == 0){
+    errorMessage += 'No password added ';
+  }
+
+  // get email
+  let email = data.get('email')
+
+  // pull in validator
+  var validator = require("email-validator");
+  
+  //run validator
+  let emailCheck = validator.validate(email);
+  //let passCheck = validator.validate(pass);
+
+  //print the status true or false
+  console.log("email status +emailCheck");
+
+  //if it is false, add to the error message
+  if(emailCheck == false){
+    errorMessage += 'Incorrect email';
+  } 
+  return errorMessage;
+}
+
+
 	const handleSubmit = (event) => {
 		
 		console.log("handling submit");
 
 
     event.preventDefault();
+
+    //call out custome validator
+    let errorMessage = validateForm(event);
+
+    //save the message
+    setErrorHolder(errorMessage)
+
+    //if we have an error
+    if(errorMessage.length > 0){
+      setOpen(true);
+    } else {
+      // if we do not get an error
+    
   
 		const data = new FormData(event.currentTarget);
 
@@ -74,7 +136,7 @@ export default function Page() {
     console.log("Sent dob:" + dob)
 
 
-
+      console.log("calling db");
     //runDBCallAsync(`http://localhost:3000/api/register?email=${email}&Email=${Email}&pass=${pass}&Pass=${Pass}&Address=${Address}&dob=${dob}`)
     runDBCallAsync(`api/login?email=${email}&pass=${pass}`)
 
@@ -90,7 +152,7 @@ export default function Page() {
       }
 
 
-
+    } // error message if
 
   }; // end handler
 
@@ -108,11 +170,49 @@ export default function Page() {
   });
   
 
+//first
+const [open, setOpen] = React.useState(false);
 
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  //second
+  const [errorHolder, setErrorHolder] = React.useState(false);
 
   
   return (
     <ThemeProvider theme={theme}>
+    <React.Fragment>
+
+    <Dialog
+    open={open}
+    onClose={handleClose}
+    aria-labelledby="alert-dialog-title"
+    aria-describedby="alert-dialog-description"
+    >
+      <DialogTitle id="alert-dialog-title">
+        {"Error"}
+      </DialogTitle>
+      <DialogContent>
+        <DialogContentText id="alert-dialog-description">
+          {errorHolder}
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+
+        <Button onClick={handleClose} autoFocus>
+          Close
+        </Button>
+
+      </DialogActions>
+    </Dialog>
+
+    </React.Fragment>
     <Container component="main"  maxWidth="xs">
       <CssBaseline />
       <Box

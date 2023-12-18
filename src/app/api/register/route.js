@@ -13,12 +13,19 @@ export async function GET(req, res) {
   const Address = searchParams.get('Address')
   const Email = searchParams.get('Email')
   const Pass = searchParams.get('Pass')
+  const dob = searchParams.get('dob')
 
   console.log(email);
   console.log(pass);
   console.log(Address);
   console.log(Email);
   console.log(Pass);
+  console.log(dob);
+
+  const bcrypt = require('bcrypt);
+  const saltRounds = 10;
+
+  const hash = bcrypt.hashSync(pass, saltRounds);
 
 
 
@@ -79,7 +86,7 @@ const collection = db.collection('login'); // collection name
 
 
 
-const findResult = await collection.insertOne({"username": email, "pass":pass, "dob": dob});
+const findResult = await collection.insertOne({"username": email, "pass":hash, "dob": dob});
 
 console.log(findResult);
 
